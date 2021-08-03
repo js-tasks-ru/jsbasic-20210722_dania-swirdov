@@ -8,7 +8,7 @@ function initCarousel() {
   leftArrow.style.display = 'none';
   document.querySelector('.carousel').addEventListener('click', function(event)  {
     if (event.target.closest('div').classList.contains('carousel__arrow_right')) {
-      activeSlideIndex = (activeSlideIndex + slides.length) % slides.length + 1;
+      activeSlideIndex = (activeSlideIndex + slides.length + 1) % slides.length;
       if (activeSlideIndex == slides.length - 1) {
         rightArrow.style.display = 'none';
       } else {
@@ -17,7 +17,7 @@ function initCarousel() {
       this.querySelector('.carousel__inner').style.transform = `translateX(-${slideWidth * activeSlideIndex}px)`;
     }
     else if(event.target.closest('div').classList.contains('carousel__arrow_left')) {
-      activeSlideIndex = (activeSlideIndex + slides.length) % slides.length - 1;
+      activeSlideIndex = (activeSlideIndex + slides.length - 1) % slides.length;
       if (activeSlideIndex == 0) {
         leftArrow.style.display = 'none';
       } else {
