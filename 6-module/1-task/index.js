@@ -14,6 +14,9 @@
  */
 export default class UserTable {
   constructor(rows) {
+    this.render(rows);
+  }
+  render(rows) {
     this.elem = document.createElement('table');
     this.elem.innerHTML = `    
     <thead>
