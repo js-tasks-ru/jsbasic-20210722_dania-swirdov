@@ -46,10 +46,6 @@ export default class Carousel {
     let rightArrow = this.elem.querySelector('.carousel__arrow_right');
     let inner = this.elem.querySelector('.carousel__inner');
 
-    this.elem.querySelector('button.carousel__button').addEventListener('click', (event) => {
-      
-    });
-
     leftArrow.style.display = 'none';
     this.elem.addEventListener('click', (event) => {
       if (event.target.closest('div') && event.target.closest('div').classList.contains('carousel__arrow_right')) {
