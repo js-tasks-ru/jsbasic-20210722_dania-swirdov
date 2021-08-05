@@ -41,13 +41,13 @@ export default class Carousel {
   addEvents() {
     let slidesElems = Array.from(this.elem.querySelectorAll('.carousel__slide'));
     let activeSlideIndex = 0;
-    let slideWidth = 500;
     let leftArrow = this.elem.querySelector('.carousel__arrow_left');
     let rightArrow = this.elem.querySelector('.carousel__arrow_right');
     let inner = this.elem.querySelector('.carousel__inner');
 
     leftArrow.style.display = 'none';
     this.elem.addEventListener('click', (event) => {
+      let slideWidth = slidesElems[activeSlideIndex].offsetWidth;
       if (event.target.closest('div') && event.target.closest('div').classList.contains('carousel__arrow_right')) {
         activeSlideIndex = (activeSlideIndex + this.slides.length + 1) % this.slides.length;
         if (activeSlideIndex == this.slides.length - 1) {
@@ -67,9 +67,8 @@ export default class Carousel {
         inner.style.transform = `translateX(-${slideWidth * activeSlideIndex}px)`;
       }
       else if (event.target.closest('button') && event.target.closest('button').classList.contains('carousel__button')) {
-        this.currSlideIndex = slidesElems.indexOf(event.target.closest('.carousel__slide'));
         this.elem.dispatchEvent(new CustomEvent("product-add", { 
-          detail: this.slides[this.currSlideIndex].id, 
+          detail: this.slides[activeSlideIndex].id, 
           bubbles: true 
         }));
       } else return;
