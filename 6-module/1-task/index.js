@@ -36,9 +36,13 @@ export default class UserTable {
       let crossBtn = document.createElement('button');
       crossBtn.textContent = 'X';
       cross.append(crossBtn);
-      for (let key of Object.keys(user)) {
+      for (let col of this.elem.querySelectorAll('th')) {
+        if (col.textContent == '') break;
         let cell = document.createElement('td');
-        if (['name','age','salary','city'].includes(key)) cell.textContent = user[key];
+        if (col.textContent == 'Имя') cell.textContent = user['name'];
+        else if (col.textContent == 'Возраст') cell.textContent = user['age'];
+        else if (col.textContent == 'Зарплата') cell.textContent = user['salary'];
+        else if (col.textContent == 'Город') cell.textContent = user['city'];
         row.append(cell);
       }
       row.append(cross);
