@@ -36,9 +36,9 @@ export default class UserTable {
       let crossBtn = document.createElement('button');
       crossBtn.textContent = 'X';
       cross.append(crossBtn);
-      for (let value of Object.values(user)) {
+      for (let key of Object.keys(user)) {
         let cell = document.createElement('td');
-        cell.textContent = value;
+        if (['name','age','salary','city'].includes(key)) cell.textContent = user[key];
         row.append(cell);
       }
       row.append(cross);
