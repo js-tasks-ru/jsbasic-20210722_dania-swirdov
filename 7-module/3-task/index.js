@@ -34,8 +34,7 @@ export default class StepSlider {
         this.active = +event.target.textContent;
       }
       else {
-        let width = getComputedStyle(this.elem).width;
-        width = width.slice(0, width.length - 2);
+        let width = this.elem.getBoundingClientRect().width;
         let step = 100 / (this.steps - 1);
         let dist = Math.floor((event.clientX - this.elem.getBoundingClientRect().x) * 100 / width);
         if (dist % step < step / 2)
