@@ -24,43 +24,20 @@ export default class StepSlider {
     if (this.active < this.steps) steps[this.active].classList.add('slider__step-active');
   }
 
-  addEvents() {
-    let steps = this.elem.querySelector('.slider__steps').querySelectorAll('span');
-    let thumb = this.elem.querySelector('.slider__thumb');
-    thumb.ondragstart = () => false;
-    let addCustomEvent = () => {
-      this.elem.dispatchEvent(new CustomEvent('slider-change', {
-        bubbles: true,
-        detail: this.active
-      }));
-    }
-    this.elem.addEventListener('click', (event) => {
-      event.preventDefault();
-      steps[this.active].classList.remove('slider__step-active');
-      if (event.target.tagName == 'SPAN') {
-        this.active = +event.target.textContent;
-      }
-      else {
-        let width = getComputedStyle(this.elem).width;
-        width = width.slice(0, width.length - 2);
-        let step = 100 / (this.steps - 1);
-        let dist = Math.floor((event.clientX - this.elem.getBoundingClientRect().x) * 100 / width);
-        if (dist % step < step / 2)
-          this.active = Math.trunc(dist / step);
-        else 
-          this.active = Math.trunc(dist / step) + 1;
-      }
-      steps[this.active].classList.add('slider__step-active');
-      thumb.style.left = this.elem.querySelector('.slider__progress').style.width = 100 * this.active / (this.steps - 1) + '%';
-      thumb.querySelector('span').textContent = this.active;
-      addCustomEvent();
-    });
+  addCustomEvent() {
+    this.elem.dispatchEvent(new CustomEvent('slider-change', {
+      bubbles: true,
+      detail: this.active
+    }));
+  }
 
+  addPointerEvent(steps, thumb) {
     document.addEventListener('pointerdown', (event) => {
       event.preventDefault();
       if (event.target.classList.contains('slider__thumb')) {
         let left;
         let pointerMove = (event) => {
+          steps[this.active].classList.remove('slider__step-active');
           left = event.pageX - this.elem.getBoundingClientRect().left;
           left = left / this.elem.offsetWidth;
           if (left > 1) left = 1;
@@ -75,11 +52,38 @@ export default class StepSlider {
           document.removeEventListener('pointermove', pointerMove);
           document.removeEventListener('pointerup', pointerUp);
           this.elem.classList.remove('slider_dragging');
-          addCustomEvent();
+          this.addCustomEvent();
         }
         document.addEventListener('pointermove', pointerMove);
         document.addEventListener('pointerup', pointerUp);
       }
     });
+  }
+
+  addClickEvent(steps, thumb) {
+    this.elem.addEventListener('click', (event) => {
+      event.preventDefault();
+      steps[this.active].classList.remove('slider__step-active');
+      if (!event.target.classList.contains('slider__thumb')) {
+        if (event.target.tagName == 'SPAN') {
+          this.active = +event.target.textContent;
+        }
+        else {
+          this.active = Math.round(((event.clientX - this.elem.getBoundingClientRect().x) / this.elem.offsetWidth) * (this.steps - 1));
+        }
+        steps[this.active].classList.add('slider__step-active');
+        thumb.style.left = this.elem.querySelector('.slider__progress').style.width = 100 * this.active / (this.steps - 1) + '%';
+        thumb.querySelector('span').textContent = this.active;
+        this.addCustomEvent();
+      }
+    });
+  }
+
+  addEvents() {
+    let steps = this.elem.querySelector('.slider__steps').querySelectorAll('span');
+    let thumb = this.elem.querySelector('.slider__thumb');
+    thumb.ondragstart = () => false;
+    this.addClickEvent(steps, thumb);
+    this.addPointerEvent(steps, thumb);
   }
 }
