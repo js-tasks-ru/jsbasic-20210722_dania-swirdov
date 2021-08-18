@@ -18,11 +18,12 @@ export default class Cart {
 
   updateProductCount(productId, amount) {
     // ваш код
-    let item = this.cartItems.find(product => product.product.id == productId);
+    let index;
+    let item = this.cartItems.find((product, i) => {index = i; return product.product.id == productId;});
     if (!item) return;
     item.count += amount;
-    if (item.count == 0) {
-      this.cartItems.splice(productId, 1);
+    if (item.count <= 0) {
+      this.cartItems.splice(index, 1);
     }
     this.onProductUpdate(item);
   }
