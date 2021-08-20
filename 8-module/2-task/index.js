@@ -26,12 +26,11 @@ export default class ProductGrid {
     let inner = this.elem.querySelector('.products-grid__inner');
     inner.innerHTML = '';
     this.products.forEach((product) => {
-      if(product.hasOwnProperty('nuts')) debugger;
       if (this.filters.noNuts && product.nuts) {
         return;
       } else if (this.filters.vegeterianOnly && (!product.vegeterian || !product.hasOwnProperty('vegeterian'))) {
         return;
-      } else if (this.filters.maxSpiciness && product.hasOwnProperty('spiciness') && product.spiciness && (product.spiciness > this.filters.maxSpiciness)) {
+      } else if (this.filters.hasOwnProperty('maxSpiciness') && product.hasOwnProperty('spiciness') && (product.spiciness > this.filters.maxSpiciness)) {
         return;
       } else if (this.filters.category && product.hasOwnProperty('category') && product.category && (product.category != this.filters.category)) {
         return;
