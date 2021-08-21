@@ -17,12 +17,12 @@ export default class Main {
     this.cart = new Cart(this.cartIcon);
     this.carousel = new Carousel(slides);
     this.ribbonMenu = new RibbonMenu(categories);
-    this.stepSlider = new StepSlider({steps: 5, value: 2});
+    this.stepSlider = new StepSlider({steps: 5, value: 3});
   }
 
   async render() {
     // ... ваш код
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise(async (resolve) => {
       document.querySelector('[data-carousel-holder]').append(this.carousel.elem);
       document.querySelector('[data-ribbon-holder]').append(this.ribbonMenu.elem);
       document.querySelector('[data-slider-holder]').append(this.stepSlider.elem);
