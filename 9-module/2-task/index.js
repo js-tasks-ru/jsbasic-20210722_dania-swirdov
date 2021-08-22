@@ -22,7 +22,7 @@ export default class Main {
 
   async render() {
     // ... ваш код
-    let promise = new Promise(async (resolve) => {
+    let promise = new Promise((resolve) => {
       document.querySelector('[data-carousel-holder]').append(this.carousel.elem);
       document.querySelector('[data-ribbon-holder]').append(this.ribbonMenu.elem);
       document.querySelector('[data-slider-holder]').append(this.stepSlider.elem);
@@ -51,9 +51,9 @@ export default class Main {
     this.cart.addProduct(Array.from(this.productsGrid.products).find((value) => value.id == event.detail));
   }
 
-  onSliderChange = () => {
+  onSliderChange = (event) => {
     this.productsGrid.updateFilter({
-      maxSpiciness: this.stepSlider.active
+      maxSpiciness: event.detail
     });
   }
 
